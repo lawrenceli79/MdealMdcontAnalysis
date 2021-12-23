@@ -6,7 +6,7 @@
 # This is for anken:  患者カルテが開けない（UAE発生）[#992708]
 # MDEA.DBF(pid=15848,cvt=77760) has bad MDCONT(s) content.
 # Maybe many mvisit(s) mdeal content are packed into single cvt=77760.
-# This script will try to split them to multiple cvisit(s) according to "0xfd00" start
+# This script will try to split them to multiple cvisit(s) according to "0xfd0000" start
 # mdeal.txt assumes 21 MDCONT fields with MDCONT FieldLen=96 
 
 import sys
@@ -48,11 +48,11 @@ with open(strInFile) as fInFile:
 splitMDconts = []
 mdconts = []
 for i,mdcont in enumerate(allMDcont):
-    header = mdcont[2:6] # skip beginning "0x" and get "fd??"
-    if (header=="0000"):
+    header = mdcont[2:8] # skip beginning "0x" and get "fd??"
+    if (header=="000000"):
         pass
     else:
-        if (header=="fd00"):
+        if (header=="fd0000"):
             if (len(mdconts)>0):
                 splitMDconts.append(mdconts)
                 mdconts = []
